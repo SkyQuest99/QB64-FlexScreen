@@ -1,4 +1,4 @@
-# QB64-FlexsScreen
+# QB64-FlexScreen
 
 A library that allows your programs to be resized
 
