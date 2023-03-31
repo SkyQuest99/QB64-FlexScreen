@@ -13,9 +13,9 @@ SUB setup
     fps% = 30
     resize% = 1
     resizeStretch$ = "KEEP"
-    resizeLimit% = 2
-    resizeLimitX% = 100
-    resizeLimitY% = 100
+    resizeLimit% = 1
+    resizeLimitX% = 0
+    resizeLimitY% = 0
 
     PRINT "BOOTING UP"
 END SUB
