@@ -1,6 +1,9 @@
-https://github.com/SkyQuest99/QB64-FlexScreen/blob/main/Flexscreen%20Demo.mp4
 
 # QB64-FlexScreen
+
+https://user-images.githubusercontent.com/71566490/229173191-d6468b79-4524-4493-b793-77f22114f0ad.mp4
+
+
 
 A library that allows your programs to be resized
 
