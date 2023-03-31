@@ -13,6 +13,7 @@ Can keep screen size and expand, or not resize
 
 * resizeStretch$ = "KEEP" or resizeStretch$ = "EXPAND"
 * resize% = 1(true), 0(false)
+* resizeLimit% = 0(no limit), 1(the limit is the oDisplay's width and height), 2(the limit is the values of resizeLimitX% and resizeLimitY% variables)
 * to add a limit use resizeLimitX% = 0 and resizeLimitY% = 0
 
 Built in mouse coordinates support(mouseX%, mouseY%)
