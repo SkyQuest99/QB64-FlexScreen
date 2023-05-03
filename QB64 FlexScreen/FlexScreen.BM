@@ -1,0 +1,169 @@
+
+'----------------------------------
+
+FUNCTION fsInput$ (x1%, y1%, t%) ' a input handling system
+
+    DIM keyH%
+    keyH% = _KEYHIT
+
+    fsInput$ = textinput$
+
+    IF ((keyH% >= 33 AND keyH% <= 126) OR keyH% = 32) AND t% = 0 THEN 'all
+        textinput$ = textinput$ + CHR$(keyH%)
+    ELSEIF (keyH% >= 48 AND keyH% <= 57) AND t% = 1 THEN ' Integers
+        textinput$ = textinput$ + CHR$(keyH%)
+
+    ELSEIF ((keyH% >= 48 AND keyH% <= 57) OR (keyH% = 46 AND INSTR(textinput$, ".") = 0)) AND t% = 2 THEN ' floating numbers
+        textinput$ = textinput$ + CHR$(keyH%)
+
+    ELSEIF (((keyH% >= 65 AND keyH% <= 90) OR (keyH% >= 97 AND keyH% <= 122)) OR keyH% = 32) AND t% = 3 THEN ' Alphabet
+        textinput$ = textinput$ + CHR$(keyH%)
+
+    ELSEIF (((keyH% >= 48 AND keyH% <= 57) OR ((keyH% >= 65 AND keyH% <= 90) OR (keyH% >= 97 AND keyH% <= 122))) OR keyH% = 32) AND t% = 4 THEN 'Alphanumeric
+        textinput$ = textinput$ + CHR$(keyH%)
+
+    ELSEIF keyH% = 8 THEN ' delete words
+        textinput$ = LEFT$(textinput$, LEN(textinput$) - 1)
+    ELSEIF keyH% = 13 THEN ' enter pressed
+        textinput$ = ""
+    END IF
+
+    LOCATE y1%, x1%: PRINT textinput$
+
+END FUNCTION
+
+SUB program ' the main part
+
+    _DEST oDisplay&
+    CALL setup  ' setups the program
+    _DEST 0
+    _PUTIMAGE (0, 0)-(_WIDTH, _HEIGHT), oDisplay&
+
+    IF resize% = 1 THEN
+        _RESIZE ON
+    ELSEIF resize% = 0 THEN
+        _RESIZE OFF
+    END IF
+
+    SLEEP 1
+    DO
+        IF resize% = 1 THEN
+            CALL resizeHandler ' handles the resize of window
+        END IF
+
+        WHILE _MOUSEINPUT : WEND
+        mi = _MOUSEINPUT
+        mb = _MOUSEBUTTON(1)
+        mouseX% = _MOUSEX
+        mouseY% = _MOUSEY
+
+        IF resizeStretch$ = "KEEP" THEN
+            boxWidth = _WIDTH(oDisplay&)
+            boxHeight = _HEIGHT(oDisplay&)
+            aspectRatio = boxWidth / boxHeight
+            IF aspectRatio > _WIDTH / _HEIGHT THEN
+                ' Image is wider than the screen
+                scaledWidth = _WIDTH
+                scaledHeight = scaledWidth / aspectRatio
+            ELSE
+                ' Image is taller than or has same aspect ratio as the screen
+                scaledHeight = _HEIGHT
+                scaledWidth = scaledHeight * aspectRatio
+            END IF
+            xPos = (_WIDTH - scaledWidth) / 2
+            yPos = (_HEIGHT - scaledHeight) / 2
+            mouseX% = mouseX% - xPos
+            mouseY% = mouseY% - yPos
+            IF mouseX% < 0 OR mouseX% >= scaledWidth OR mouseY% < 0 OR mouseY% >= scaledHeight THEN
+                ' Mouse is outside the scaled image
+                mouseX% = -1
+                mouseY% = -1
+            ELSE
+                mouseX% = INT((mouseX% / scaledWidth) * boxWidth) + 1
+                mouseY% = INT((mouseY% / scaledHeight) * boxHeight) + 1
+            END IF
+        ELSEIF resizeStretch$ = "EXPAND" THEN
+            mouseX% = INT((mouseX% / _WIDTH(s&)) * _WIDTH(oDisplay&))
+            mouseY% = INT((mouseY% / _HEIGHT(s&)) * _HEIGHT(oDisplay&))
+        END IF
+
+        CALL HandleDisplayResize ' handles oDisplay& size
+
+        _DEST oDisplay&
+        CLS
+        CALL display ' shows the display
+        _DEST 0
+
+        IF _EXIT THEN
+            CLS
+            CALL finished
+            endProgram% = 1
+        ENDIF
+
+        _DISPLAY
+        _LIMIT fps%
+    LOOP UNTIL endProgram% = 1
+    SYSTEM
+END SUB
+
+
+SUB HandleDisplayResize  ' handles oDisplay& size
+    IF resizeStretch$ = "KEEP" THEN
+        boxWidth = _WIDTH(oDisplay&)
+        boxHeight = _HEIGHT(oDisplay&)
+        aspectRatio = boxWidth / boxHeight
+        IF aspectRatio > _WIDTH / _HEIGHT THEN
+            ' Image is wider than the screen
+            scaledWidth = _WIDTH
+            scaledHeight = scaledWidth / aspectRatio
+        ELSE
+            ' Image is taller than or has same aspect ratio as the screen
+            scaledHeight = _HEIGHT
+            scaledWidth = scaledHeight * aspectRatio
+        END IF
+        xPos = (_WIDTH - scaledWidth) / 2
+        yPos = (_HEIGHT - scaledHeight) / 2
+        _PUTIMAGE (xPos, yPos)-(xPos + scaledWidth, yPos + scaledHeight), oDisplay&
+    ELSEIF resizeStretch$ = "EXPAND" THEN
+        _PUTIMAGE (0, 0)-(_WIDTH, _HEIGHT), oDisplay&
+    END IF
+END SUB
+
+
+SUB resizeHandler  ' handles resize of window
+    IF _RESIZEHEIGHT > 0 AND _RESIZEWIDTH > 0 THEN
+        oldS& = s&
+        s& = _NEWIMAGE(_RESIZEWIDTH, _RESIZEHEIGHT, 32)
+        SCREEN s&
+        _FREEIMAGE oldS&
+    END IF
+
+    IF resizeLimit% = 1 THEN
+        IF _WIDTH > 0 AND _HEIGHT > 0 THEN
+            IF _WIDTH(s&) < _WIDTH(oDisplay&) OR _HEIGHT(s&) < _HEIGHT(oDisplay&) THEN
+                _RESIZE OFF
+                oldS& = s&
+                s& = _NEWIMAGE(_WIDTH(oDisplay&), _HEIGHT(oDisplay&), 32)
+                SCREEN s&
+                _FREEIMAGE oldS&
+            ELSE
+                _RESIZE ON
+            END IF
+        END IF
+    ELSEIF resizeLimit% = 2 THEN
+        IF _WIDTH > 0 AND _HEIGHT > 0 THEN
+            IF _WIDTH(s&) < resizeLimitX% OR _HEIGHT(s&) < resizeLimitY% THEN
+                _RESIZE OFF
+                oldS& = s&
+                s& = _NEWIMAGE(resizeLimitX%, resizeLimitY%, 32)
+                SCREEN s&
+                _FREEIMAGE oldS&
+            ELSE
+                _RESIZE ON
+            END IF
+        END IF
+    END IF
+END SUB
+
+
+
