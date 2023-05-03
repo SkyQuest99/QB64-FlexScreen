@@ -1,5 +1,5 @@
 
-# QB64-FlexScreen
+# QB64-FlexScreen - new update, simplified, qbjs support
 
 https://user-images.githubusercontent.com/71566490/229173191-d6468b79-4524-4493-b793-77f22114f0ad.mp4
 
