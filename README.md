@@ -9,16 +9,18 @@ A library that allows your programs to be resized
 
 # Features
 
-Can keep screen size and expand, or not resize
+Can resize screen with two types, "KEEP" or "EXPAND"
 
 * resizeStretch$ = "KEEP" or resizeStretch$ = "EXPAND"
-* resize% = 1(true), 0(false)
-* resizeLimit% = 0(no limit), 1(the limit is the oDisplay's width and height), 2(the limit is the values of resizeLimitX% and resizeLimitY% variables)
-* to add a limit use resizeLimitX% = 0 and resizeLimitY% = 0
+* to add a limit that prevents further resize down, use resizeLimitX% and resizeLimitY%
 
 Built in mouse coordinates support(mouseX%, mouseY%)
 
-Also has a input function names fsInput
+Also has a experimental input function named fsInput
+
+Now supports QBJS by boxgaming
+
+https://v6p9d9t4.ssl.hwcdn.net/html/7790783/index.html?code=X1RJVExFICJGTEVYU0NSRUVOIgoKRElNIFNIQVJFRCByZXNpemVUeXBlJMwXcyYsIG9sZFMmLCBncmFwaGljxBJtaSwgbW91c2VYJccJWSXMNmVuZFByb2dyYW0lLCBhc3BlY3RSYXRpbywgc2NhbGVkV2lkdGjIDUhlaWdodCwgeFBvcywgecUGYm94xyRib3jGIQonLd8BLS0KCkNBTEwgcMZ8CgpfRlJFRUlNQUdF6gC+CgpFTkQKClNVQiBzZXR1cAogICAgcyYgPSBfTkVXxS0oMzAwLCDGBTIpxSHJP98o5gFbIHMmxQ7rAVUgPSAiS0VFUCIKxRpQUklOVCAiU1RBUlRJTkcixRXkAJogU1VC5gCebWFpbsUXTElORSAoMCwgMCktyXMpLCBfUkdCMzIoMjU1LCDIBSksIEJGxmNJRiBfS0VZRE9XTig4NykgVEhFTsUZ6wCAc3VzxnvEAesBtiA9IDHFGOQAkknHUcY0X1JFU0laRVdJRFRIIC0gNSwgIiAiLCDIGEhFSUdIVMQZyzTpAizFK+gCMekA7v8B2sQB5QES6AHYxFnlAenqAcFTTEVFUOcAtERP6QDT5AEE5gCY7gD/zhznALQ+IDAgQU5E7gDixBXRO/MCMyjMNinmARnIFMZgxRXmAibMAe4CMsgB5wF4zw/JEFdISUxFIF9NT1VTRUlOUFVUyhrkAt7IDW1p5ACk0ybnAZHJHljOGlnKGlnKdUlG9QLR8gEf6AO+xEXlARAo6QM/7gEA6QPdxCrmASbYK+sERiA9ymIvykTNL0lGzTI+5wCJIC/IaPYB1ScgSW1hZ2UgaXMgd2lkZXIgdGhhbiB0aGUgc2NyZWXmA5DMAesE0OkA7tcl6QDqzDQv7ACnzTlFTFNF/ACgdGFsbOgAoW9yIGhhcyBzYW1lx1AgcsRRIGFz/wC97ACY5wEa1yfoAOTNNSr6AL/uAsHEAeQF4SA9ICjnAYstzFkpIC8gMs0u5AYJxS7pBFLMesYwzTHqAtTICi3Fc9Il5QLfyAotxWrNJUlGyUM8IDAgT1LJDz7uAb7IGlnOKVnLKecBKfcCbk3EL+QBzm91dHNpZGXnAa7EOSBp5AHq0TTqAOYt5gTu0R3lAN7PHfUCTcpLSU5UKCjIDy/uAZgq6QNtKSAr5wVi1nTKRlnKRugBr8VHyA3QSPAE38QBX1BVVOYHuyjqCBopLcUNICvuCEnEG8kUx2XrCLHJWOQBB/IExkVYUEFORPMEyPkBIecE1nMmKeQA2fEE5O4EuvkBIegE8shH8QUBzkjrARHnCAzGeSzIOvYA8+8BW19ERVNU0yhfU09VUkPsCSjIGkNMU8oM5Ad26QiZzDgwz2IwzHNJU1BMQVnKEUxJTUlUIDbGNExPT1AgVU5USUz1CILFBfQAtugAmMhwyBToCFc=
 
 # USEAGE
 
@@ -26,6 +28,6 @@ Add your code to the top of screen above *'$include:'FlexScreen.bi'*
 
 Add the initialize or setup in a procedure named setup
 
-Add your code in a procedure named display
+Add your code in a procedure named graphics
 
 * Works on windows 10, other operating systems not sure
